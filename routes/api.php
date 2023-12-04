@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +19,35 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/** Roles */
+Route::get('/roles', [RoleController::class, 'index']);
+Route::post('/roles/new', [RoleController::class, 'create']);
+Route::get('/roles/{id}', [RoleController::class, 'view']);
+Route::patch('/roles/{id}/update', [RoleController::class, 'update']);
+Route::delete('/roles/{id}/delete', [RoleController::class, 'delete']);
+
+/** Users */
+Route::get('/users', [UserController::class, 'index']);
+Route::post('/users/new', [UserController::class, 'create']);
+Route::get('/users/{id}', [UserController::class, 'view']);
+Route::patch('/users/{id}/update', [UserController::class, 'update']);
+Route::delete('/users/{id}/delete', [UserController::class, 'delete']);
+
+/** Categories */
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::post('/categories/new', [CategoryController::class, 'create']);
+Route::get('/categories/{id}', [CategoryController::class, 'view']);
+Route::patch('/categories/{id}/update', [CategoryController::class, 'update']);
+Route::delete('/categories/{id}/delete', [CategoryController::class, 'delete']);
+
+/** Products */
+Route::get('/products', [ProductController::class, 'index']);
+Route::post('/products/new', [ProductController::class, 'create']);
+Route::get('/products/{id}', [ProductController::class, 'view']);
+Route::patch('/products/{id}/update', [ProductController::class, 'update']);
+Route::delete('/products/{id}/delete', [ProductController::class, 'delete']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+

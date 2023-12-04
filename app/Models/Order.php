@@ -7,36 +7,26 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class User extends Model
+class Order extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'lastname',
-        'name',
-        'patronymic',
-        'sex',
-        'birth',
-        'login',
-        'password',
-        'email',
+        'dateTime',
+        'user_id',
     ];
+
     protected $hidden = [
         'created_at',
         'updated_at',
     ];
 
-    public function carts (): HasMany
-    {
-        return $this->hasMany(Cart::class);
-    }
-
-    public function orders (): HasMany
+    public function orderLists (): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
-    public function roles (): BelongsTo
+    public function users (): BelongsTo
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(User::class);
     }
 }
