@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -14,23 +18,12 @@ class UserController extends Controller
         return response()->json($user)->setStatusCode(200, 'OK');
     }
 
-    public function create(Request $request)
+    public function create(UserRequest $request)
     {
-        if (isset($request->lastname) &&
-            isset($request->name) &&
-            isset($request->sex) &&
-            isset($request->birth) &&
-            isset($request->login) &&
-            isset($request->password) &&
-            isset($request->email)
-        ) {
-            return User::create($request->all());
-        } else {
-            return response()->json('Invalid data')->setStatusCode(400, 'Bad Request');
-        }
+        return User::create($request->all());
     }
 
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UserRequest $request, string $id): JsonResponse
     {
         $user = User::where('id', '=', $id)->first();
 
@@ -38,26 +31,15 @@ class UserController extends Controller
             return response()->json()->setStatusCode(404, 'Not Found');
         }
 
-        if (isset($request->lastname) &&
-            isset($request->name) &&
-            isset($request->sex) &&
-            isset($request->birth) &&
-            isset($request->login) &&
-            isset($request->password) &&
-            isset($request->email)
-        ) {
-            $user->lastname = $request->lastname;
-            $user->name = $request->name;
-            $user->sex = $request->sex;
-            $user->birth = $request->birth;
-            $user->login = $request->login;
-            $user->password = $request->password;
-            $user->email = $request->email;
+        $user->lastname = $request->lastname;
+        $user->name = $request->name;
+        $user->sex = $request->sex;
+        $user->birth = $request->birth;
+        $user->login = $request->login;
+        $user->password = $request->password;
+        $user->email = $request->email;
 
-            isset($request->patronymic) && $user->patronymic = $request->patronymic;
-        } else {
-            return response()->json('Invalid data')->setStatusCode(400, 'Bad Request');
-        }
+        isset($request->patronymic) && $user->patronymic = $request->patronymic;
 
         $user->save();
 
@@ -73,5 +55,26 @@ class UserController extends Controller
     public function view(string $id)
     {
         return User::where('id', '=', $id)->first();
+    }
+
+    public function login(LoginRequest $request)
+    {
+        $user = User::where($request->all())->first();
+
+        if (!$user) {
+            throw new ApiException(401, "Авторизация провалена");
+        }
+
+        Auth::login($user);
+        return [
+            'data' => [
+                'user_token' => Auth::user()->generateToken()
+            ]
+        ];
+
+    }
+
+    public function logout(Request $request)
+    {
     }
 }

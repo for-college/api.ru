@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -14,31 +14,21 @@ class ProductController extends Controller
         return response()->json($products)->setStatusCode(200, 'OK');
     }
 
-    public function create(Request $request)
+    public function create(ProductRequest $request)
     {
         return Product::create($request->all());
     }
 
-    public function update(Request $request, string $id): JsonResponse
+    public function update(ProductRequest $request, string $id): JsonResponse
     {
         $product = Product::where('id', '=', $id)->first();
 
-        if (isset($request->name) &&
-            isset($request->price) &&
-            isset($request->quantity) &&
-            isset($request->photo) &&
-            isset($request->description) &&
-            isset($request->category_id)
-        ) {
-            $product->name = $request->name;
-            $product->price = $request->price;
-            $product->quantity = $request->quantity;
-            $product->photo = $request->photo;
-            $product->description = $request->description;
-            $product->category_id = $request->category_id;
-        } else {
-            return response()->json('Invalid data')->setStatusCode(400, 'Bad Request');
-        }
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->quantity = $request->quantity;
+        $product->photo = $request->photo;
+        $product->description = $request->description;
+        $product->category_id = $request->category_id;
 
         $product->save();
 

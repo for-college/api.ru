@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -21,6 +20,7 @@ return new class extends Migration
             $table->date('birth');
             $table->string('login')->unique();
             $table->string('password');
+            $table->string('api_token')->unique()->nullable();
             $table->string('email')->unique();
             $table->foreignId('role_id')
                 ->default(1)

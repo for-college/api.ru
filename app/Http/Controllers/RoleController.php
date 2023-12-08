@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoleRequest;
 use App\Models\Role;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -14,12 +14,12 @@ class RoleController extends Controller
         return response()->json($roles)->setStatusCode(200, 'OK');
     }
 
-    public function create(Request $request)
+    public function create(RoleRequest $request)
     {
         return Role::create($request->all());
     }
 
-    public function update(Request $request, string $id): JsonResponse
+    public function update(RoleRequest $request, string $id): JsonResponse
     {
         $role = Role::where('id', '=', $id)->first();
 

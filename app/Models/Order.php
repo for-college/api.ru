@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Order extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'dateTime',
         'user_id',
@@ -20,12 +21,12 @@ class Order extends Model
         'updated_at',
     ];
 
-    public function orderLists (): HasMany
+    public function orderLists(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
-    public function users (): BelongsTo
+    public function users(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

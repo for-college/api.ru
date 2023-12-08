@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -14,12 +14,12 @@ class CategoryController extends Controller
         return response()->json($categories)->setStatusCode(200, 'OK');
     }
 
-    public function create(Request $request)
+    public function create(CategoryRequest $request)
     {
         return Category::create($request->all());
     }
 
-    public function update(Request $request, string $id): JsonResponse
+    public function update(CategoryRequest $request, string $id): JsonResponse
     {
         $category = Category::where('id', '=', $id)->first();
 
@@ -27,9 +27,7 @@ class CategoryController extends Controller
             return response()->json()->setStatusCode(404, 'Not Found');
         }
 
-        if (isset($request->name)) {
-            $category->name = $request->name;
-        }
+        $category->name = $request->name;
 
         $category->save();
 

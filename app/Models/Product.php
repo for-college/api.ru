@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Product extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
         'price',
@@ -23,12 +24,12 @@ class Product extends Model
         'updated_at',
     ];
 
-    public function cart (): HasMany
+    public function cart(): HasMany
     {
         return $this->hasMany(Cart::class);
     }
 
-    public function categories (): BelongsTo
+    public function categories(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }

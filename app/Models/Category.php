@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Category extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name'
     ];
@@ -17,7 +18,7 @@ class Category extends Model
         'updated_at',
     ];
 
-    public function products (): HasMany
+    public function products(): HasMany
     {
         return $this->hasMany(Product::class);
     }

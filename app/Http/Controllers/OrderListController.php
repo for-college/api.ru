@@ -11,11 +11,19 @@ class OrderListController extends Controller
 
     }
 
-    public function create (Request $request) {}
+    public function create(Request $request)
+    {
+    }
 
-    public function update (Request $request, string $id) {}
+    public function update(Request $request, string $id)
+    {
+    }
 
-    public function delete (string $id) {}
+    public function delete(string $id)
+    {
+    }
 
-    public function view (string $id) {}
+    public function view(string $id)
+    {
+    }
 }
